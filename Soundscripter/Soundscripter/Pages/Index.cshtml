@@ -4,13 +4,9 @@
     ViewData["Title"] = "Speaker recongnition";
 }
 
-<div class="row">
-    <div class="offset-2 col-6">
-        <input id="yt-url" type="text" data-val="true" data-val-required="Url is required." value="" placeholder="Youtube url" /><br />
-    </div>
-    <div class="col-2">
-        <button id="process-video-button" class="btn btn-primary">Process</button>
-    </div>
+<div class="url-input-form">
+    <input id="yt-url" class="url-input" type="text" value="" placeholder="Youtube url" />
+    <button id="process-video-button" class="btn btn-primary">Process</button>
 </div>
 
 @section Scripts{
