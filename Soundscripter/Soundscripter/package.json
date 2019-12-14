@@ -1,0 +1,13 @@
+{
+  "name": "Soundscripter",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-concat": "2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-uglify": "^3.0.2",
+    "rimraf": "^3.0.0",
+    "ytdl-core": "^1.0.3"
+  }
+}
