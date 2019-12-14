@@ -9,7 +9,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -28,6 +27,7 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
+Soundscripter/Soundscripter/obj/
 [Ll]og/
 [Ll]ogs/
 
