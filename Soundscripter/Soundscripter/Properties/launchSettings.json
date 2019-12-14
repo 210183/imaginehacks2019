@@ -1,7 +1,7 @@
-﻿{
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:64454",
       "sslPort": 44341
@@ -12,16 +12,18 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\Mateusz.Galasinski\\Desktop\\gcloud_credentials.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Soundscripter": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\Mateusz.Galasinski\\Desktop\\gcloud_credentials.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }
