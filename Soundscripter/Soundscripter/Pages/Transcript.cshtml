@@ -1,0 +1,17 @@
+﻿@page
+@model Soundscripter.Pages.TranscriptModel
+@{
+    ViewData["Title"] = "Transcript";
+}
+
+<h1>Transcript from URL</h1>
+
+<div class="row">
+    <div class="col-lg-1">
+        <form asp-page-handler="transcript" method="post">
+            <button class="btn btn-default">Transcript</button>
+        </form>
+    </div>
+</div>
+<h3 class="clearfix">@Model.Message</h3>
+
