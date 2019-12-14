@@ -5,6 +5,11 @@
   </PropertyGroup>
 
 
+  <Target Name="MyPreCompileTarget" BeforeTargets="Build"> 
+    <Exec Command="npm install" />
+    <Exec Command="gulp npmscripts" />
+  </Target>
+
   <ItemGroup>
   </ItemGroup>
 
