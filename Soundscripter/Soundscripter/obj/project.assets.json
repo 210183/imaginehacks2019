@@ -8,23 +8,23 @@
     ".NETCoreApp,Version=v3.0": []
   },
   "packageFolders": {
-    "C:\\Users\\marek\\.nuget\\packages\\": {},
+    "C:\\Users\\Maciej\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marek\\Desktop\\Hackathon\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj",
+      "projectUniqueName": "C:\\Users\\Maciej\\source\\repos\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj",
       "projectName": "Soundscripter",
-      "projectPath": "C:\\Users\\marek\\Desktop\\Hackathon\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj",
-      "packagesPath": "C:\\Users\\marek\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marek\\Desktop\\Hackathon\\imaginehacks2019\\Soundscripter\\Soundscripter\\obj\\",
+      "projectPath": "C:\\Users\\Maciej\\source\\repos\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj",
+      "packagesPath": "C:\\Users\\Maciej\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Maciej\\source\\repos\\imaginehacks2019\\Soundscripter\\Soundscripter\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\marek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Maciej\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -57,6 +57,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.0.1, 3.0.1]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.0.1, 3.0.1]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
