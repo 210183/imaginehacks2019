@@ -15,7 +15,7 @@ namespace Soundscripter
         public async Task<string> PutIntoBlob(string audioPath)
         {
             BlobContainerClient containerClient = BlobServiceClient.GetBlobContainerClient(BlobName);
-            string blobFileName = Guid.NewGuid().ToString().Substring(0, 12).ToLowerInvariant();
+            string blobFileName = Path.ChangeExtension(Guid.NewGuid().ToString().Substring(0, 12).ToLowerInvariant(), ".mp3");
             BlobClient blobClient = containerClient.GetBlobClient(blobFileName);
 
             Console.WriteLine("Uploading to Blob storage as blob:\n\t {0}\n", blobClient.Uri);
