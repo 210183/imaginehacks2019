@@ -1,0 +1,21 @@
+﻿@page "{transcriptId}"
+
+@model Soundscripter.Pages.SamplesModel
+
+
+<form class="form-horizontal" method="post">
+    <div class="samples-list">
+        <div class="sample">
+            <h6 style="flex-grow:1">Speaker name</h6>
+            <h6 style="flex-grow:1">Audio</h6>
+        </div>
+        @for (int i = 0; i < Model.Samples.Count; i++)
+        {   
+            <div class="sample">
+                <input type="text" name="@Model.Samples[@i].SpeakerName" />
+                <audio controls src="@Model.Samples[@i].AudioUrl" />
+            </div>
+        }
+    </div>
+    <button class="btn btn-primary set-speakers-button">Set speakers</button>
+</form>
