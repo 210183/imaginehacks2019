@@ -5,16 +5,13 @@
 }
 
 <div class="url-input-form">
-    <input id="yt-url" class="url-input" type="text" value="" placeholder="Youtube url" />
-    <button id="process-video-button" class="btn btn-primary">Process</button>
+    <form method="post">
+        <input id="yt-url" class="url-input" type="text" value="" placeholder="Youtube url" />
+        <button id="process-video-button" class="btn btn-primary">Process</button>
+    </form>
 </div>
 
 @section Scripts{
     <script type="text/javascript">
-        $('#process-video-button').click(() => {
-            console.log("PROCESSING");
-            const url = $('#yt-url').val();
-            //TODO call downloading audio
-        });
     </script>
 }
