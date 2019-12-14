@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mateusz.Galasinski\\source\\repos\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj": {}
+    "C:\\Users\\marek\\Desktop\\Hackathon\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mateusz.Galasinski\\source\\repos\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj": {
+    "C:\\Users\\marek\\Desktop\\Hackathon\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mateusz.Galasinski\\source\\repos\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj",
+        "projectUniqueName": "C:\\Users\\marek\\Desktop\\Hackathon\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj",
         "projectName": "Soundscripter",
-        "projectPath": "C:\\Users\\Mateusz.Galasinski\\source\\repos\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj",
-        "packagesPath": "C:\\Users\\Mateusz.Galasinski\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mateusz.Galasinski\\source\\repos\\imaginehacks2019\\Soundscripter\\Soundscripter\\obj\\",
+        "projectPath": "C:\\Users\\marek\\Desktop\\Hackathon\\imaginehacks2019\\Soundscripter\\Soundscripter\\Soundscripter.csproj",
+        "packagesPath": "C:\\Users\\marek\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marek\\Desktop\\Hackathon\\imaginehacks2019\\Soundscripter\\Soundscripter\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Mateusz.Galasinski\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\marek\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
