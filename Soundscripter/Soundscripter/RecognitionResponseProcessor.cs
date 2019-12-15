@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Google.Cloud.Speech.V1;
 using Google.Protobuf.WellKnownTypes;
 using NAudio.Wave;
+using Soundscripter.Mongo;
 
 namespace Soundscripter
 {
@@ -13,9 +14,8 @@ namespace Soundscripter
     {
         public BlobStorageLoader StorageLoader { get; set; } = new BlobStorageLoader();
         public AudioTrimmer AudioTrimmer { get; set; } = new AudioTrimmer();
-        public string SourceAudioFile { get; set; } = "C:\\Users\\Mateusz.Galasinski\\Desktop\\debate_test.mp3";
 
-        public async Task FindSamples(string transcriptId, LongRunningRecognizeResponse recognizeResponse)
+        public async Task FindSamples(string transcriptId, LongRunningRecognizeResponse recognizeResponse, string sourceUri, string originUri)
         {
             var result = recognizeResponse.Results.Last();
             if (result == null)
@@ -57,24 +57,38 @@ namespace Soundscripter
             var samplesToSave = new SamplesCollection()
             {
                 samples = samples,
-                transcriptId = transcriptId
+                transcriptId = transcriptId,
+                VideoUri = originUri
             };
+
+            var connectionString = Environment.GetEnvironmentVariable("MONGO_CONNECT_STR");
+            var database = CosmosUtils.ConnectToDatabase(connectionString, "Samples");
+            var collection = database.GetCollection<SamplesCollection>("Samples");
+            await CosmosUtils.AddDocumentAsync(collection, samplesToSave);
+            foreach (var invoiceEntity in await CosmosUtils.GetAllAsync(collection))
+            {
+                Console.WriteLine(invoiceEntity.transcriptId);
+            }
 
             async Task AddSample()
             {
                 var orderedWords = currentSampleWords.OrderBy(w => w.StartTime.Nanos);
+                var firstWord = orderedWords.First();
+                var lastWord = orderedWords.Last();
                 Duration duration = orderedWords.Last().EndTime - orderedWords.First().StartTime;
                 string trimmedFile = AudioTrimmer.SaveTrimmed(
-                    orderedWords.First().StartTime.Nanos / 1000_000,
-                    orderedWords.Last().EndTime.Nanos / 1000_000,
-                    SourceAudioFile);
+                    (int)(firstWord.StartTime.Seconds * 1000) + firstWord.StartTime.Nanos / 1000_000,
+                    (int)(lastWord.EndTime.Seconds * 1000) + lastWord.EndTime.Nanos / 1000_000,
+                    sourceUri);
                 string blobName = await StorageLoader.PutIntoBlob(trimmedFile);
                 samples.Add(new Sample()
                 {
-                    duration = duration.Nanos,
+                    duration = (int)(duration.Seconds * 1000) + duration.Nanos / 1000_000,
                     wordCount = orderedWords.Count(),
                     speakerId = currentSpeakerTag,
-                    storageUri = $"{StorageLoader.BlobServiceClient.Uri}/{blobName}",
+                    startTime = firstWord.StartTime.ToTimeSpan().ToString("g"),
+                    endTime = lastWord.EndTime.ToTimeSpan().ToString("g"),
+                    storageUri = $"{StorageLoader.BlobServiceClient.Uri}{StorageLoader.BlobName}/{blobName}",
                     text = string.Join(' ', currentSampleWords.Select(w => w.Word))
                 });
             }

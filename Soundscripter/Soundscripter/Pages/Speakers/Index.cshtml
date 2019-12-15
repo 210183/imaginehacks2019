@@ -1,0 +1,66 @@
+﻿@page
+@model Soundscripter.Pages.Speakers.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Speakers transcripts</h1>
+
+<div class="form-group">
+    @Html.LabelFor(x => Model.SpeakerName, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.DropDownListFor(x => Model.SpeakerName, new SelectList(Model.Speakers, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "speaker-name" })
+        @Html.ValidationMessageFor(x => x.SpeakerName, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="transcripts-container">
+
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $('#speaker-name').on("change",
+            (e) => {
+
+                const selectedSpeaker = e.target.value;
+                console.log(selectedSpeaker, e);
+                $.ajax(
+                    {
+                        url: '/Speakers?handler=SelectedSpeaker&speakerName=' + selectedSpeaker
+
+                    }).done(function (result) {
+
+                    
+                    const $container = $('.transcripts-container');
+                    $container.empty();
+                    console.log($container);
+                    for (let i = 0; i < result.length; i++) {
+
+                        const $div = $('<div class="transcript-container">' +
+                            '<p>' +
+                            result[i].transcriptId +
+                            '</p>' +
+                            '<p>' +
+                            result[i].videoUri +
+                            '</p>' +
+                            '</div>');
+
+                        for (let j = 0; j < result.length; j++) {
+
+                            $div.append($('<div class="part-container">' +
+                                '<p>' +
+                                result[i].parts[j].startTime + "-" + result[i].parts[j].endTime + ' (' +  result[i].parts[j].time + ')' +
+                                ' ' +
+                                result[i].parts[j].text +
+                                '</p>' +
+                                '</div>'));
+                        }
+                        $container.append($div);
+
+                    }
+                });
+            });
+    </script>
+}

@@ -4,17 +4,13 @@
     ViewData["Title"] = "Speaker recongnition";
 }
 
-<div class="row">
-    <div class="offset-2 col-6">
-        @*<input id="yt-url" type="text" data-val="true" data-val-required="Url is required." value="" placeholder="Youtube url" />*@<br />
-    </div>
-    <div class="col-2">
-        <form method="post">
-            <input asp-for="YoutubeUrl" placeholder="Youtube url" /><br />
-            <button class="btn btn-default">Process</button>
-        </form>
-    </div>
+<div class="url-input-form">
+    <form method="post">
+        <input asp-for="YoutubeUrl" class="url-input" type="text" value="" placeholder="Youtube url" />
+        <button id="process-video-button" class="btn btn-primary">Process</button>
+    </form>
 </div>
+<hr />
 
 @section Scripts{
     <script type="text/javascript">
