@@ -14,7 +14,7 @@ properties:
           secureValue: '/app/credentials.json'
         - name: 'ASPNETCORE_ENVIRONMENT'
           value: 'Development'
-      image: "speechtranscript.azurecr.io/speechv1.1:latest"
+      image: "speechtranscript.azurecr.io/speechv1.2:latest"
       ports:
       - port: 80
       resources:

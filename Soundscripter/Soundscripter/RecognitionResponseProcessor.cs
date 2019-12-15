@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Cloud.Speech.V1;
 using Google.Protobuf.WellKnownTypes;
-using NAudio.Wave;
 using Soundscripter.Mongo;
 
 namespace Soundscripter
@@ -114,18 +114,43 @@ namespace Soundscripter
             if (begin.HasValue && end.HasValue && begin > end)
                 throw new ArgumentOutOfRangeException("end", "end should be greater than begin");
 
-            using (var reader = new Mp3FileReader(inputPath))
-            using (var writer = File.Create(outputPath))
+            $"ffmpeg -y -ss {begin.ToString()} -t {end.ToString()} -i {inputPath} -acodec copy {outputPath}".Bash();
+            //using (var reader = new Mp3FileReader(inputPath))
+            //using (var writer = File.Create(outputPath))
+            //{
+            //    Mp3Frame frame;
+            //    while ((frame = reader.ReadNextFrame()) != null)
+            //        if (reader.CurrentTime >= begin || !begin.HasValue)
+            //        {
+            //            if (reader.CurrentTime <= end || !end.HasValue)
+            //                writer.Write(frame.RawData, 0, frame.RawData.Length);
+            //            else break;
+            //        }
+            //}
+        }
+    }
+
+    public static class ShellHelper
+    {
+        public static string Bash(this string cmd)
+        {
+            var escapedArgs = cmd.Replace("\"", "\\\"");
+
+            var process = new Process()
             {
-                Mp3Frame frame;
-                while ((frame = reader.ReadNextFrame()) != null)
-                    if (reader.CurrentTime >= begin || !begin.HasValue)
-                    {
-                        if (reader.CurrentTime <= end || !end.HasValue)
-                            writer.Write(frame.RawData, 0, frame.RawData.Length);
-                        else break;
-                    }
-            }
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = $"-c \"{escapedArgs}\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                }
+            };
+            process.Start();
+            string result = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            return result;
         }
     }
 }

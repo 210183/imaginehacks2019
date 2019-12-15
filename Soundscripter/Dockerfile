@@ -2,6 +2,8 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.0-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+RUN apt update
+RUN apt install -y ffmpeg
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
@@ -15,7 +17,6 @@ FROM build AS publish
 RUN dotnet publish "Soundscripter.csproj" -c Release -o /app/publish
 
 FROM base AS final
-WORKDIR /app
 COPY --from=publish /app/publish .
 COPY ./gcloud_credentials.json /app/credentials.json
 ENTRYPOINT ["dotnet", "Soundscripter.dll"]
