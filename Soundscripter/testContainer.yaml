@@ -1,6 +1,6 @@
 apiVersion: '2018-10-01'
 location: westeurope
-name: speech-tests
+name: speech-v2
 properties:
   containers:
   - name: speech
@@ -14,7 +14,7 @@ properties:
           secureValue: '/app/credentials.json'
         - name: 'ASPNETCORE_ENVIRONMENT'
           value: 'Development'
-      image: "speechtranscript.azurecr.io/speechv1.2:latest"
+      image: "speechtranscript.azurecr.io/speechv2:latest"
       ports:
       - port: 80
       resources:
@@ -31,6 +31,6 @@ properties:
     type: Public
     ports:
       - port: 80
-    dnsNameLabel: speech-transcript
+    dnsNameLabel: speech-v2
 tags: {}
 type: Microsoft.ContainerInstance/containerGroups
