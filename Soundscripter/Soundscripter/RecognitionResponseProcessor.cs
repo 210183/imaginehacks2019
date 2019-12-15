@@ -14,9 +14,8 @@ namespace Soundscripter
     {
         public BlobStorageLoader StorageLoader { get; set; } = new BlobStorageLoader();
         public AudioTrimmer AudioTrimmer { get; set; } = new AudioTrimmer();
-        public string SourceAudioFile { get; set; } = "C:\\Users\\Mateusz.Galasinski\\Desktop\\debate_test.mp3";
 
-        public async Task FindSamples(string transcriptId, LongRunningRecognizeResponse recognizeResponse, string originUri)
+        public async Task FindSamples(string transcriptId, LongRunningRecognizeResponse recognizeResponse, string sourceUri, string originUri)
         {
             var result = recognizeResponse.Results.Last();
             if (result == null)
@@ -80,7 +79,7 @@ namespace Soundscripter
                 string trimmedFile = AudioTrimmer.SaveTrimmed(
                     (int)(firstWord.StartTime.Seconds * 1000) + firstWord.StartTime.Nanos / 1000_000,
                     (int)(lastWord.EndTime.Seconds * 1000) + lastWord.EndTime.Nanos / 1000_000,
-                    SourceAudioFile);
+                    sourceUri);
                 string blobName = await StorageLoader.PutIntoBlob(trimmedFile);
                 samples.Add(new Sample()
                 {

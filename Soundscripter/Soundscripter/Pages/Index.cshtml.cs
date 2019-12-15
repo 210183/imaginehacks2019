@@ -53,7 +53,7 @@ namespace Soundscripter.Pages
             return RedirectToPage("./Samples/Index", new { transcriptId = id });
         }
 
-        private async Task<string> Transcript(string originUri, string sourceUri = "C:\\Users\\Mateusz.Galasinski\\Desktop\\debate_test.mp3")
+        private async Task<string> Transcript(string originUri, string sourceUri)
         {
             var buckerLoader = new BucketLoader();
             (string audioInBucketUri, string objectName) = buckerLoader.UploadFileFromLocal(sourceUri);
@@ -62,7 +62,7 @@ namespace Soundscripter.Pages
             buckerLoader.DeleteObject(new[] { objectName });
 
             string transcriptId = ObjectId.GenerateNewId().ToString();
-            await RecognitionResponseProcessor.FindSamples(transcriptId, response, originUri);
+            await RecognitionResponseProcessor.FindSamples(transcriptId, response, sourceUri, originUri);
             return transcriptId;
         }
     }
