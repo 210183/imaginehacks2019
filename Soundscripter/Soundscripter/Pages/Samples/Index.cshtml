@@ -1,4 +1,4 @@
-﻿@page "{transcriptId}"
+﻿@page
 
 @model Soundscripter.Pages.SamplesModel
 
@@ -13,7 +13,7 @@
         {   
             <div class="sample">
                 <input type="text" name="@Model.Samples[@i].SpeakerName" />
-                <audio controls src="@Model.Samples[@i].AudioUrl" />
+                <audio controls src="@Model.Samples[@i].AudioUrl" ></audio>
             </div>
         }
     </div>

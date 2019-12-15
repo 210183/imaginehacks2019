@@ -7,6 +7,7 @@ using MediaToolkit.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 using VideoLibrary;
 
 namespace Soundscripter.Pages
@@ -33,7 +34,7 @@ namespace Soundscripter.Pages
         {
 
         }
-        public async Task OnPost()
+        public async Task<IActionResult> OnPost()
         {
             var source = Environment.CurrentDirectory;
             var youtube = YouTube.Default;
@@ -49,11 +50,11 @@ namespace Soundscripter.Pages
 
                 engine.Convert(inputFile, outputFile);
             }
-            //System.IO.File.ReadAllBytes();
-            await Transcript(outputFile.Filename);
+            string id = await Transcript(outputFile.Filename);
+            return RedirectToPage("./Samples/Index", new { transcriptId = id });
         }
 
-        private async Task Transcript(string sourceUri = "C:\\Users\\Mateusz.Galasinski\\Desktop\\debate_test.mp3")
+        private async Task<string> Transcript(string sourceUri = "C:\\Users\\Mateusz.Galasinski\\Desktop\\debate_test.mp3")
         {
             var buckerLoader = new BucketLoader();
             (string audioInBucketUri, string objectName) = buckerLoader.UploadFileFromLocal(sourceUri);
@@ -61,7 +62,7 @@ namespace Soundscripter.Pages
             LongRunningRecognizeResponse response = await transcripter.Recognize(audioInBucketUri, new RecognizeConfiguration());
             buckerLoader.DeleteObject(new[] { objectName });
 
-            string transcriptId = Guid.NewGuid().ToString().Substring(0, 10);
+            string transcriptId = ObjectId.GenerateNewId().ToString();
             await RecognitionResponseProcessor.FindSamples(transcriptId, response);
             Message = JsonSerializer.Serialize(
                 new
@@ -69,6 +70,7 @@ namespace Soundscripter.Pages
                     transcriptId,
                     response
                 });
+            return transcriptId;
         }
     }
 }

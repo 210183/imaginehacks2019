@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Soundscripter.Mongo;
 
 namespace Soundscripter.Pages
 {
@@ -9,25 +13,40 @@ namespace Soundscripter.Pages
         [BindProperty]
         public List<SampleDto> Samples { get; set; }
 
-        public void OnGet(string transcriptId)
+        public async Task OnGet(string? transcriptId)
         {
-            //TODO findSamples for transcript
+            var samples = await LoadSamples(transcriptId);
+            var longestSamples = samples.samples
+                .GroupBy(kv => kv.speakerId)
+                .Select(g => new
+                {
+                    group = g,
+                    max = g.Max(s => s.wordCount)
+                })
+                .Select(g => g.group.First(s => s.wordCount == g.max));
 
-            Samples = new List<SampleDto>()
+            Samples = longestSamples.Select(s => new SampleDto()
             {
-                new SampleDto()
+                SpeakerId = s.speakerId,
+                AudioUrl = s.storageUri
+            }).ToList();
+        }
+
+        private async Task<SamplesCollection> LoadSamples(string transcriptId)
+        {
+            var connectionString = Environment.GetEnvironmentVariable("MONGO_CONNECT_STR");
+            var database = CosmosUtils.ConnectToDatabase(connectionString, "Samples");
+            var collection = database.GetCollection<SamplesCollection>("Samples");
+
+            foreach (var samplesEntity in await CosmosUtils.GetAllAsync(collection))
+            {
+                if (samplesEntity.transcriptId == transcriptId)
                 {
-                    SpeakerId = 0,
-                    SpeakerName = "",
-                    AudioUrl = @"https://soundscripter.blob.core.windows.net/testing-accesss/debate_test.mp3"
-                },
-                new SampleDto()
-                {
-                    SpeakerId = 1,
-                    SpeakerName = "",
-                    AudioUrl = @"https://soundscripter.blob.core.windows.net/testing-accesss/debate_test.mp3"
+                    return samplesEntity;
                 }
-            };
+            }
+
+            throw new ArgumentException($"Samples not found: {transcriptId}");
         }
     }
 
