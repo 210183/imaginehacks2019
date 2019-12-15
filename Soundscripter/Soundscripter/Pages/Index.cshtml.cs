@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Google.Cloud.Speech.V1;
@@ -6,9 +8,11 @@ using MediaToolkit;
 using MediaToolkit.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using VideoLibrary;
+
 
 namespace Soundscripter.Pages
 {
@@ -20,6 +24,11 @@ namespace Soundscripter.Pages
         [BindProperty]
         public string YoutubeUrl { get; set; } = "";
 
+        [Required]
+        [Display(Name="Speaker Name")]
+        public string SpeakerName { get; set; }
+        public IEnumerable<SelectListItem> Speakers { get; set; }
+
         public byte[] AudioBytesArray { get; set; }
         public string Message { get; set; } = "PLACE FOR TRANSCRIPT";
         public RecognitionResponseProcessor RecognitionResponseProcessor { get; set; } = new RecognitionResponseProcessor();
@@ -28,6 +37,11 @@ namespace Soundscripter.Pages
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+            selectListItems.Add(new SelectListItem("test", "testowy"));
+            selectListItems.Add(new SelectListItem("test1", "testowy1"));
+            selectListItems.Add(new SelectListItem("test2", "testowy1"));
+            Speakers = selectListItems;
         }
 
         public void OnGet()
