@@ -4,14 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Speakers transcripts</h1>
 
-<div class="form-group">
-    @Html.LabelFor(x => Model.SpeakerName, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-5">
-        @Html.DropDownListFor(x => Model.SpeakerName, new SelectList(Model.Speakers, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "speaker-name" })
-        @Html.ValidationMessageFor(x => x.SpeakerName, "", new { @class = "text-danger" })
-    </div>
+<h1 class="text-center">Speakers transcripts</h1>
+
+<div class="dropdown-container">
+    <label>Choose speaker:</label>
+    @Html.DropDownListFor(x => Model.SpeakerName, new SelectList(Model.Speakers, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "speaker-name" })
 </div>
 
 <div class="transcripts-container">
@@ -21,11 +19,30 @@
 
 @section Scripts{
     <script type="text/javascript">
+        function timespanToSeconds(timespanString) {
+            const timeParts = timespanString.split(":");
+            const seconds = parseInt(timeParts[0] * 3600) + parseInt(timeParts[1]) * 60 + parseInt(timeParts[2]); 
+            return seconds;
+        }
+
+        function getYoutubeVideoId(link) {
+            let videoId = link.split('v=')[1];
+            const ampersandPosition = videoId.indexOf('&');
+            if (ampersandPosition != -1) {
+                videoId = videoId.substring(0, ampersandPosition);
+            }
+            return videoId;
+        }
+
+        function getYoutubeLinkWithTime(link, startTime) {
+            const videoId = getYoutubeVideoId(link);
+            const seconds = timespanToSeconds(startTime);
+            return "https://youtu.be/" + videoId + "?t=" + seconds;
+        }
+
         $('#speaker-name').on("change",
             (e) => {
-
                 const selectedSpeaker = e.target.value;
-                console.log(selectedSpeaker, e);
                 $.ajax(
                     {
                         url: '/Speakers?handler=SelectedSpeaker&speakerName=' + selectedSpeaker
@@ -35,30 +52,27 @@
                     
                     const $container = $('.transcripts-container');
                     $container.empty();
-                    console.log($container);
+                        
                     for (let i = 0; i < result.length; i++) {
+                        const $card = $('<div class="card card-custom"></div>');
 
-                        const $div = $('<div class="transcript-container">' +
-                            '<p>' +
-                            result[i].transcriptId +
-                            '</p>' +
-                            '<p>' +
-                            result[i].videoUri +
-                            '</p>' +
+                        const $cardBody = $(
+                            '<div class="card-body">' +
+                                '<a href="' + result[i].videoUri + '">GO TO VIDEO</a>' +
                             '</div>');
 
                         for (let j = 0; j < result.length; j++) {
-
-                            $div.append($('<div class="part-container">' +
-                                '<p>' +
-                                result[i].parts[j].startTime + "-" + result[i].parts[j].endTime + ' (' +  result[i].parts[j].time + ')' +
-                                ' ' +
-                                result[i].parts[j].text +
-                                '</p>' +
+                            const part = result[i].parts[j];
+                            const displayString = part.startTime + "-" + part.endTime + ' (' + part.time + ')';
+                            $cardBody.append($('<div class="part-container">' +
+                                '<a href="' + getYoutubeLinkWithTime(result[i].videoUri, part.startTime) + '">' +
+                                    displayString +
+                                '</a>' +
+                                '<p>' + part.text + '</p>' +
                                 '</div>'));
                         }
-                        $container.append($div);
-
+                        $card.append($cardBody);
+                        $container.append($card);
                     }
                 });
             });

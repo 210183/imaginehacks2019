@@ -106,3 +106,14 @@ body {
     margin-top: 10px;
     margin-right: 0;
 }
+
+.dropdown-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.card-custom {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
