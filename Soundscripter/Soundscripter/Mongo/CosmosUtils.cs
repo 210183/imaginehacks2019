@@ -24,10 +24,10 @@ namespace Soundscripter.Mongo
             await collection.InsertOneAsync(document);
         }
 
-        //public static async Task UpdateDocumentAsync(IMongoCollection<InvoiceEntity> collection, InvoiceEntity document)
-        //{
-        //    await collection.ReplaceOneAsync(x => x.Id == document.Id, document);
-        //}
+        public static async Task UpdateDocumentAsync(IMongoCollection<SamplesCollection> collection, SamplesCollection document)
+        {
+            await collection.ReplaceOneAsync(x => x.transcriptId == document.transcriptId, document);
+        }
 
         public static async Task<IEnumerable<SamplesCollection>> GetAllAsync(IMongoCollection<SamplesCollection> collection)
         {

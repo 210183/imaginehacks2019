@@ -48,6 +48,33 @@ namespace Soundscripter.Pages
 
             throw new ArgumentException($"Samples not found: {transcriptId}");
         }
+
+        public async Task<IActionResult> OnPost(string? transcriptId, List<SampleDto> samples)
+        {
+            var connectionString = Environment.GetEnvironmentVariable("MONGO_CONNECT_STR");
+            var database = CosmosUtils.ConnectToDatabase(connectionString, "Samples");
+            var collection = database.GetCollection<SamplesCollection>("Samples");
+            SamplesCollection samplesCollection = null;
+            foreach (var samplesEntity in await CosmosUtils.GetAllAsync(collection))
+            {
+                if (samplesEntity.transcriptId == transcriptId)
+                {
+                    samplesCollection = samplesEntity;
+                    break;
+                }
+            }
+
+            foreach (var classifiedSample in samples)
+            {
+                foreach (var sample in samplesCollection.samples
+                    .Where(s => s.speakerId == classifiedSample.SpeakerId))
+                {
+                    sample.speakerName = classifiedSample.SpeakerName;
+                }
+            }
+            await CosmosUtils.UpdateDocumentAsync(collection, samplesCollection);
+            return RedirectToPage("../Speakers/Index");
+        }
     }
 
     public class SampleDto

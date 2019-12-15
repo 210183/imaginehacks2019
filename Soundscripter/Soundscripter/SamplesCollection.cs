@@ -10,5 +10,6 @@ namespace Soundscripter
         public List<Sample> samples { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string transcriptId { get; set; }
+        public string VideoUri { get; set; }
     }
 }

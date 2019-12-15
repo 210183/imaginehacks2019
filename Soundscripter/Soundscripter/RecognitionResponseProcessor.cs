@@ -16,7 +16,7 @@ namespace Soundscripter
         public AudioTrimmer AudioTrimmer { get; set; } = new AudioTrimmer();
         public string SourceAudioFile { get; set; } = "C:\\Users\\Mateusz.Galasinski\\Desktop\\debate_test.mp3";
 
-        public async Task FindSamples(string transcriptId, LongRunningRecognizeResponse recognizeResponse)
+        public async Task FindSamples(string transcriptId, LongRunningRecognizeResponse recognizeResponse, string originUri)
         {
             var result = recognizeResponse.Results.Last();
             if (result == null)
@@ -58,7 +58,8 @@ namespace Soundscripter
             var samplesToSave = new SamplesCollection()
             {
                 samples = samples,
-                transcriptId = transcriptId
+                transcriptId = transcriptId,
+                VideoUri = originUri
             };
 
             var connectionString = Environment.GetEnvironmentVariable("MONGO_CONNECT_STR");
@@ -86,6 +87,8 @@ namespace Soundscripter
                     duration = (int)(duration.Seconds * 1000) + duration.Nanos / 1000_000,
                     wordCount = orderedWords.Count(),
                     speakerId = currentSpeakerTag,
+                    startTime = firstWord.StartTime.ToTimeSpan().ToString("g"),
+                    endTime = lastWord.EndTime.ToTimeSpan().ToString("g"),
                     storageUri = $"{StorageLoader.BlobServiceClient.Uri}{StorageLoader.BlobName}/{blobName}",
                     text = string.Join(' ', currentSampleWords.Select(w => w.Word))
                 });
