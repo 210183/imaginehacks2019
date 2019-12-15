@@ -61,7 +61,7 @@ namespace Soundscripter.Pages
             ////string SaveMP3File = Path.ChangeExtension(vidName, ".mp3");
             ////Convert.ConvertMedia(vidName, SaveMP3File, "mp3");
             ////string id = await Transcript(YoutubeUrl, $"{vidName}.mp3");
-            string output = Path.ChangeExtension(vidName, FileExtensions.Mp3);
+            string output = Path.ChangeExtension($"{vidName}{Guid.NewGuid().ToString().Substring(0, 8)}", FileExtensions.Mp3);
             IConversionResult result = await Conversion.ExtractAudio(vidName, output).Start();
 
             string id = await Transcript(YoutubeUrl, output);
