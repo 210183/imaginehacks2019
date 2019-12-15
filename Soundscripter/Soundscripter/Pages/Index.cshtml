@@ -6,9 +6,17 @@
 
 <div class="url-input-form">
     <form method="post">
-        <input id="yt-url" class="url-input" type="text" value="" placeholder="Youtube url" />
-        <button id="process-video-button" class="btn btn-primary">Process</button>
+        <input asp-for="YoutubeUrl" placeholder="Youtube url" /><br />
+        <button class="btn btn-default">Process</button>
     </form>
+</div>
+<hr />
+<div class="form-group">
+    @Html.LabelFor(x => Model.SpeakerName, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.DropDownListFor(x => Model.SpeakerName, new SelectList(Model.Speakers, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Speaker Name" })
+        @Html.ValidationMessageFor(x => x.SpeakerName, "", new { @class = "text-danger" })
+    </div>
 </div>
 
 @section Scripts{
