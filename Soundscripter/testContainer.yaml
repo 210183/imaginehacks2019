@@ -1,0 +1,36 @@
+apiVersion: '2018-10-01'
+location: westeurope
+name: speech-tests
+properties:
+  containers:
+  - name: speech
+    properties:
+      environmentVariables: 
+        - name: 'MONGO_CONNECT_STR'
+          secureValue: 'mongodb://speechmongo:pNVu1afjRmDI9vUDXaWZVarPiNTnvFaZRyMfEtUxI63GeSZ8BLuUTDMkf8u131BUIdotqYFVrxodlXlPmQVDlg==@speechmongo.documents.azure.com:10255/?ssl=true&replicaSet=globaldb'
+        - name: 'BLOB_CONNECT_STR'
+          secureValue: 'DefaultEndpointsProtocol=https;AccountName=soundscripter;AccountKey=a2HFoVOYIjGnD/L92qgCp0kvPusnVzYC9mjQlWQmLWDZz5oxRxCpoddp3bqQA3y+CAa2cBaJ1hCn769vkiMtCA==;EndpointSuffix=core.windows.net'
+        - name: 'GOOGLE_APPLICATION_CREDENTIALS'
+          secureValue: '/app/credentials.json'
+        - name: 'ASPNETCORE_ENVIRONMENT'
+          value: 'Development'
+      image: "speechtranscript.azurecr.io/speechv1.1:latest"
+      ports:
+      - port: 80
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 2
+  imageRegistryCredentials:
+  - server: speechtranscript.azurecr.io
+    username: speechtranscript
+    password: K=ijK9rPlznyh27tmvR4LV7GJm1YE7pX
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    type: Public
+    ports:
+      - port: 80
+    dnsNameLabel: speech-transcript
+tags: {}
+type: Microsoft.ContainerInstance/containerGroups
