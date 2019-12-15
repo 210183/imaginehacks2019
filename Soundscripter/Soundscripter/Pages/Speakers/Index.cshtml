@@ -61,7 +61,7 @@
                                 '<a href="' + result[i].videoUri + '">GO TO VIDEO</a>' +
                             '</div>');
 
-                        for (let j = 0; j < result.length; j++) {
+                        for (let j = 0; j < result[i].parts.length; j++) {
                             const part = result[i].parts[j];
                             const displayString = part.startTime + "-" + part.endTime + ' (' + part.time + ')';
                             $cardBody.append($('<div class="part-container">' +

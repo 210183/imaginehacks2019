@@ -8,7 +8,7 @@ namespace Soundscripter
     {
         public int SampleRateHertz { get; set; } = 8000;
         public int MinSpeakerCount { get; set; } = 1;
-        public int MaxSpeakerCount { get; set; } = 10;
+        public int MaxSpeakerCount { get; set; } = 5;
         public string LanguageCode { get; set; } = "en";
         public RecognitionConfig.Types.AudioEncoding AudioEncoding { get; set; } = RecognitionConfig.Types.AudioEncoding.EncodingUnspecified;
     }

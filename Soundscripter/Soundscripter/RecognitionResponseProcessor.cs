@@ -43,6 +43,7 @@ namespace Soundscripter
                         //switch speaker
                         currentSampleWords.Clear();
                         currentSpeakerTag = wordInfo.SpeakerTag;
+                        currentSampleWords.Add(wordInfo);
                     }
                     else
                     {
